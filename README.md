@@ -23,7 +23,7 @@ App web instalável (PWA) do projeto **360 dias rumo aos 60** do André. Treino 
 2. Crie o **Firestore** (São Paulo) e publique as regras de `firestore.rules`.
 3. Registre um app Web e cole o `firebaseConfig` em `js/firebase-config.js`.
 
-Dados completos ficam em `athletes/{uid}` (só o André). Um resumo vai para `public/{shareId}`, que o padrinho abre em `…/#padrinho/<shareId>` e onde pode deixar recados (`cheers`).
+Dados completos ficam em `athletes/{uid}` (só o André). Um resumo vai para `public/{shareId}`, que o padrinho abre em `…/padrinho.html?p=<shareId>` (página sem manifest, para o atalho do iPhone guardar o id) e onde pode deixar recados (`cheers`).
 
 ## Publicar
 GitHub Pages servindo a raiz da `main`. A cada versão, suba `VERSION` em `sw.js` e em `js/rules.js`.

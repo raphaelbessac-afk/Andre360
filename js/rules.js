@@ -2,7 +2,7 @@
 // Treinos têm meta semanal (seg a dom, em qualquer dia). Refeições valem todo dia.
 // O pote mensal é dividido por peso: o mês perfeito soma exatamente o pote.
 
-export const VERSION = '1.0.0';
+export const VERSION = '1.0.1';
 
 export const SIXTY = '2027-11-03'; // 60 anos do André
 export const ATHLETE = 'André';

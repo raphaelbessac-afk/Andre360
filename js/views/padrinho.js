@@ -6,6 +6,7 @@ import * as Cloud from '../cloud.js';
 import { toast, confetti } from '../fx.js';
 
 const NAME_KEY = 'andre360:padrinho-nome';
+const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 const st = { data: undefined, cheers: [], err: '' };
 
 export function startPadrinho(shareId, render) {
@@ -66,6 +67,7 @@ export function renderPadrinho() {
     <div class="ed-row"><input id="pd-msg" maxlength="140" placeholder="Ou escreva o seu…"><button class="btn small primary" data-act="pd-send">Enviar</button></div>
   </section>
   ${st.cheers.length ? `<section class="card"><h3>Recados enviados</h3>${st.cheers.slice(0, 8).map((c) => `<div class="cheer"><span class="ce">${esc(c.emoji)}</span><div><b>${esc(c.msg)}</b><small>${esc(c.from)} · ${new Date(c.at).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</small></div></div>`).join('')}</section>` : ''}
+  ${standalone() ? '' : `<section class="card nudge"><b>📲 Deixe na tela de início</b><p>${/iPhone|iPad/.test(navigator.userAgent) ? 'No Safari, toque em <b>Compartilhar</b> (o quadrado com a seta) e depois em <b>Adicionar à Tela de Início</b>.' : 'No Chrome, toque em <b>⋮</b> e depois em <b>Adicionar à tela inicial</b>.'} O ícone abre direto aqui.</p></section>`}
   <p class="hint center">Atualizado ${upd}</p></div>`;
 }
 

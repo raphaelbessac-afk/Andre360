@@ -8,7 +8,7 @@ import { toast } from '../fx.js';
 import { topBar } from './today.js';
 
 export const appUrl = () => location.origin + location.pathname;
-export const padrinhoUrl = (S) => `${appUrl()}#padrinho/${S.share.id}`;
+export const padrinhoUrl = (S) => `${location.origin}${location.pathname.replace(/[^/]*$/, '')}padrinho.html?p=${S.share.id}`;
 
 function rulesSection(app) {
   const S = app.S;

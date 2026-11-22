@@ -1,7 +1,7 @@
 // Service worker: guarda o app para funcionar offline. Suba VERSION a cada publicação.
-const VERSION = 'andre360-v1';
+const VERSION = 'andre360-v2';
 const SHELL = [
-  './', 'index.html', 'manifest.webmanifest', 'css/app.css',
+  './', 'index.html', 'padrinho.html', 'manifest.webmanifest', 'css/app.css',
   'js/app.js', 'js/utils.js', 'js/rules.js', 'js/store.js', 'js/engine.js', 'js/medals.js',
   'js/strava.js', 'js/fx.js', 'js/cloud.js', 'js/firebase-config.js',
   'js/views/ui.js', 'js/views/today.js', 'js/views/history.js', 'js/views/tenis.js', 'js/views/medals.js',

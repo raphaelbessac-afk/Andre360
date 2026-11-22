@@ -30,8 +30,23 @@ const view = document.getElementById('view');
 const tabs = document.getElementById('tabs');
 
 // ---------- modo padrinho (#padrinho/<id>) ----------
+// Link do padrinho: padrinho.html?p=<id> (formato atual) ou #padrinho/<id> (formato antigo).
+const pq = new URLSearchParams(location.search).get('p');
 const pm = location.hash.match(/^#padrinho\/([a-z0-9]{6,24})$/);
-if (pm) app.shareId = pm[1];
+const pid = pq && /^[a-z0-9]{6,24}$/.test(pq) ? pq : pm ? pm[1] : null;
+const onPadrinhoPage = /padrinho\.html$/.test(location.pathname);
+if (pid && !onPadrinhoPage) location.replace(`padrinho.html?p=${pid}`);
+else if (pid) app.shareId = pid;
+else if (onPadrinhoPage) {
+  try {
+    app.shareId = localStorage.getItem('andre360:padrinho-id'); // atalho salvo sem o id
+  } catch (e) { /* ignora */ }
+}
+if (app.shareId) {
+  try {
+    localStorage.setItem('andre360:padrinho-id', app.shareId);
+  } catch (e) { /* ignora */ }
+}
 
 app.render = function render() {
   if (app.shareId) {
@@ -414,7 +429,11 @@ app.startCloud = function () {
 };
 
 // ---------- início ----------
-if (app.shareId) {
+if (pid && !onPadrinhoPage) {
+  // redirecionando para padrinho.html
+} else if (onPadrinhoPage && !app.shareId) {
+  view.innerHTML = '<div class="onb"><div class="onb-hero"><span class="wm big">ANDRE<em>360</em></span><p class="lead">Abra o link que o André te mandou.</p></div></div>';
+} else if (app.shareId) {
   document.body.classList.add('padrinho');
   app.render();
   startPadrinho(app.shareId, () => app.render());
