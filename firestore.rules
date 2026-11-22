@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Dados completos do André: só ele lê e grava.
+    match /athletes/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    // Resumo público para o padrinho (link só de leitura).
+    match /public/{shareId} {
+      allow read: if true;
+      allow create: if request.auth != null && request.resource.data.owner == request.auth.uid;
+      allow update: if request.auth != null && resource.data.owner == request.auth.uid
+        && request.resource.data.owner == request.auth.uid;
+      // Recados do padrinho: qualquer um com o link pode mandar, curtos.
+      match /cheers/{cid} {
+        allow read: if true;
+        allow create: if exists(/databases/$(database)/documents/public/$(shareId))
+          && request.resource.data.keys().hasOnly(['from', 'msg', 'emoji', 'at'])
+          && request.resource.data.from is string && request.resource.data.from.size() <= 30
+          && request.resource.data.msg is string && request.resource.data.msg.size() <= 140
+          && request.resource.data.emoji is string && request.resource.data.emoji.size() <= 8
+          && request.resource.data.at is number;
+        allow delete: if request.auth != null
+          && get(/databases/$(database)/documents/public/$(shareId)).data.owner == request.auth.uid;
+      }
+    }
+  }
+}

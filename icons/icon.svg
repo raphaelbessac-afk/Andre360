@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#FF5A1F"/><stop offset=".38" stop-color="#FF3D8B"/><stop offset=".7" stop-color="#22D3EE"/><stop offset="1" stop-color="#D4FF3A"/></linearGradient>
+    <radialGradient id="bg" cx=".8" cy=".1" r="1.1"><stop offset="0" stop-color="#1E242C"/><stop offset="1" stop-color="#0A0B0D"/></radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <g transform="translate(46 160) scale(1.75)">
+    <path d="M20 86 L17 52 C16 40 21 31 29 28 L33 18 C35 15 39 15 40 18 L43 27 C53 29 61 34 67 41 C75 50 86 52 98 49 L114 45 C142 47 172 57 198 66 C216 72 230 74 235 80 C237 84 234 87 228 87 Z" fill="url(#g)"/>
+    <path d="M11 84 L235 80 C239 87 234 96 222 97 L36 105 C19 106 9 98 11 84 Z" fill="#F4F6F8"/>
+    <path d="M96 56 L106 42 M108 57 L118 44 M120 59 L130 46 M132 61 L142 49" stroke="#0A0B0D" stroke-width="4.5" stroke-linecap="round" opacity=".55"/>
+    <path d="M28 70 C60 62 90 70 120 72 M32 77 C70 70 100 78 140 78" stroke="rgba(255,255,255,.55)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <g fill="#0A0B0D" opacity=".45"><rect x="38" y="103.9" width="8" height="5" rx="2"/><rect x="52" y="103.3" width="8" height="5" rx="2"/><rect x="66" y="102.7" width="8" height="5" rx="2"/><rect x="80" y="102.1" width="8" height="5" rx="2"/><rect x="94" y="101.5" width="8" height="5" rx="2"/><rect x="108" y="100.9" width="8" height="5" rx="2"/><rect x="122" y="100.3" width="8" height="5" rx="2"/><rect x="136" y="99.7" width="8" height="5" rx="2"/><rect x="150" y="99.1" width="8" height="5" rx="2"/><rect x="164" y="98.5" width="8" height="5" rx="2"/><rect x="178" y="97.9" width="8" height="5" rx="2"/><rect x="192" y="97.3" width="8" height="5" rx="2"/><rect x="206" y="96.7" width="8" height="5" rx="2"/></g>
+  </g>
+  <text x="256" y="430" text-anchor="middle" font-family="Arial Narrow, Arial, sans-serif" font-weight="900" font-style="italic" font-size="78" fill="#F4F6F8" letter-spacing="2">360</text>
+</svg>
