@@ -131,6 +131,12 @@ body.padrinho #app { padding-bottom: calc(var(--sab) + 24px); }
 .tag.strava { background: rgba(252,76,2,.15); border-color: rgba(252,76,2,.5); color: #FF8A50; }
 .tag.good { background: rgba(212,255,58,.12); border-color: rgba(212,255,58,.5); color: var(--volt); }
 
+.xtra { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+.card h3 + .xtra { border-top: 0; }
+.xtra.on .hi { background: rgba(34,211,238,.12); border-color: rgba(34,211,238,.55); }
+.tgl { width: 44px; height: 44px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--card2); font-size: 20px; font-weight: 800; }
+.tgl.on { background: var(--cyan); border-color: var(--cyan); color: #0A0B0D; }
+.tgl:active { transform: scale(.92); }
 .slips { background: var(--knit), linear-gradient(180deg, rgba(255,77,94,.06), transparent 60%), var(--card); }
 .bonus .bo { padding: 6px 0; font-weight: 600; }
 .jk { display: flex; align-items: center; gap: 12px; }

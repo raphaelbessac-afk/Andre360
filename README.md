@@ -6,6 +6,7 @@ App web instalável (PWA) do projeto **360 dias rumo aos 60** do André. Treino 
 - Pote de R$ 300/mês dividido por peso: corrida 8, academia 8, almoço 3, jantar 3. O mês perfeito soma exatamente R$ 300.
 - Treinos têm **meta semanal em qualquer dia** (seg–dom): corrida 3×, academia 2×. O que passar da meta fica registrado, mas não vale dinheiro.
 - Almoço e jantar na dieta valem todo dia. Doce −R$ 15, pão de queijo −R$ 10 (por unidade).
+- Extras (somam por cima do pote, 1× por dia): ler 10 páginas +R$ 5; esfiha da tarde sem sobremesa +R$ 1; esteira em dia de chuva +R$ 8 (também conta como corrida na meta da semana).
 - Bônus: +R$ 5 a cada 7 dias seguidos na dieta; +R$ 10 por semana perfeita de treinos.
 - 2 coringas por mês: as refeições do dia contam e ele cobre um treino que faltar na semana.
 - O cofre **acumula** entre os meses. Ao resgatar um tênis, o preço sai do cofre e ele vai para a sapateira.

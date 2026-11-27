@@ -21,6 +21,7 @@ function rulesSection(app) {
   <div class="vtable">
     ${r.train.map((h) => `<div><span>${h.emoji} ${esc(h.name)} <small>${h.perWeek}× por semana</small></span><b>+${brl(values[h.id])}</b></div>`).join('')}
     ${r.meals.map((h) => `<div><span>${h.emoji} ${esc(h.name)} na dieta</span><b>+${brl(values[h.id])}</b></div>`).join('')}
+    ${(r.extras || []).map((h) => `<div><span>${h.emoji} ${esc(h.name)} <small>extra</small></span><b>+${brl(h.value)}</b></div>`).join('')}
     ${r.slips.map((h) => `<div><span>${h.emoji} ${esc(h.name)}</span><b class="neg">−${brl(h.value)}</b></div>`).join('')}
     <div><span>🔥 ${r.bonuses.streak.every} dias seguidos na dieta</span><b>+${brl(r.bonuses.streak.value)}</b></div>
     <div><span>🏁 Semana perfeita de treinos</span><b>+${brl(r.bonuses.perfectWeek)}</b></div>

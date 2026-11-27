@@ -50,6 +50,7 @@ export function renderHistory(app) {
     <div class="mstats">
       ${ms.rules.train.map((h) => `<div><span>${h.emoji} ${esc(h.name)}</span><b>${st[h.id].n} treino${st[h.id].n === 1 ? '' : 's'}</b><small>${brl(st[h.id].amount)}</small></div>`).join('')}
       ${ms.rules.meals.map((h) => `<div><span>${h.emoji} ${esc(h.name)}</span><b>${st[h.id].done}/${st[h.id].all}</b><small>${brl(st[h.id].amount)}</small></div>`).join('')}
+      ${(ms.rules.extras || []).map((h) => `<div><span>${h.emoji} ${esc(h.name)}</span><b>${st[h.id].n}×</b><small>${brl(st[h.id].amount)}</small></div>`).join('')}
       ${ms.rules.slips.map((h) => `<div><span>${h.emoji} ${esc(h.name)}</span><b>${st[h.id].n}×</b><small class="neg">${brl(-st[h.id].amount)}</small></div>`).join('')}
       <div><span>🎁 Bônus</span><b>${brl(ms.bonus)}</b><small>${ms.jokers ? `${ms.jokers} coringa${ms.jokers > 1 ? 's' : ''}` : ''}</small></div>
       ${ms.km ? `<div><span>🛣️ Km (Strava)</span><b>${num(ms.km)} km</b><small></small></div>` : ''}

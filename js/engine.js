@@ -80,10 +80,20 @@ function evalBase(S, date) {
     return { h, done, pending, off: v === false && !joker, value: values[h.id], amount };
   });
 
-  // Treinos: pagos depois, na passada semanal (até a meta da semana).
-  const train = r.train.map((h) => ({ h, n: Math.max(0, e[h.id] || 0), paid: 0, extra: 0, jokerPaid: 0, amount: 0, value: values[h.id] }));
-
   const c = e.c || {};
+  const extras = (r.extras || []).map((h) => {
+    const n = Math.min(h.max || 99, c[h.id] || 0);
+    const amount = n * h.value;
+    earned += amount;
+    return { h, n, amount };
+  });
+
+  // Treinos: pagos depois, na passada semanal (até a meta da semana). Extras como a esteira na chuva também contam.
+  const train = r.train.map((h) => {
+    const via = extras.filter((x) => x.h.countsAs === h.id).reduce((a, x) => a + x.n, 0);
+    return { h, n: Math.max(0, e[h.id] || 0) + via, via, paid: 0, extra: 0, jokerPaid: 0, amount: 0, value: values[h.id] };
+  });
+
   const slips = r.slips.map((h) => {
     const n = c[h.id] || 0;
     const amount = n * h.value;
@@ -91,7 +101,7 @@ function evalBase(S, date) {
     return { h, n, amount };
   });
 
-  return { date, ym: ymOf(date), rules: r, joker, meals, train, slips, bonuses: [], earned, lost, note: e.note || '' };
+  return { date, ym: ymOf(date), rules: r, joker, meals, train, extras, slips, bonuses: [], earned, lost, note: e.note || '' };
 }
 
 // Percorre todos os dias desde o início.
@@ -234,6 +244,7 @@ export function monthSummary(S, ym) {
   r.train.forEach((h) => (stats[h.id] = { h, n: 0, paid: 0, amount: 0 }));
   r.meals.forEach((h) => (stats[h.id] = { h, done: 0, all: 0, amount: 0 }));
   r.slips.forEach((h) => (stats[h.id] = { h, n: 0, days: 0, amount: 0 }));
+  (r.extras || []).forEach((h) => (stats[h.id] = { h, n: 0, days: 0, amount: 0 }));
   for (let i = 1; i <= n; i++) {
     const d = `${ym}-${pad(i)}`;
     if (d < start || d > today) continue;
@@ -262,7 +273,7 @@ export function monthSummary(S, ym) {
         s.amount += x.amount;
       }
     });
-    b.slips.forEach((x) => {
+    [...b.slips, ...b.extras].forEach((x) => {
       const s = stats[x.h.id];
       if (!s) return;
       s.n += x.n;
@@ -314,15 +325,17 @@ export function project(S) {
 export function totals(S) {
   const T = timeline(S);
   let runs = 0, gym = 0, meals = 0, sweets = 0, km = 0, longest = 0;
+  const ex = {};
   for (const d of T.order) {
     const b = T.days[d];
     b.train.forEach((t) => (t.h.id === 'run' ? (runs += t.n) : t.h.id === 'gym' ? (gym += t.n) : 0));
     b.meals.forEach((x) => x.done && !b.joker && meals++);
     b.slips.forEach((x) => (sweets += x.n));
+    b.extras.forEach((x) => (ex[x.h.id] = (ex[x.h.id] || 0) + x.n));
     stravaRuns(S, d).forEach((a) => {
       km += a.km;
       longest = Math.max(longest, a.km);
     });
   }
-  return { runs, gym, meals, slips: sweets, km, longest, streak: T.streak, best: T.best, shoes: (S.shoes || []).length };
+  return { runs, gym, meals, slips: sweets, km, longest, streak: T.streak, best: T.best, shoes: (S.shoes || []).length, extras: ex };
 }

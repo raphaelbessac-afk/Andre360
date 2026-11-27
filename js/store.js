@@ -25,7 +25,7 @@ export function fresh() {
     celebrated: {},
     cheersSeen: 0,
     hide: {},
-    mig: {},
+    mig: { extras1: true },
   };
 }
 
@@ -88,6 +88,12 @@ function migrate(s) {
   s.mig = s.mig || {};
   if (!s.share || !s.share.id) {
     s.share = { id: shareId() };
+    s._migrated = true;
+  }
+  // v1.1: extras (leitura, esfiha sem sobremesa, esteira na chuva) valendo já no mês corrente.
+  if (!s.mig.extras1) {
+    for (const r of Object.values(s.rules || {})) if (!r.extras) r.extras = clone(DEFAULT_RULES.extras);
+    s.mig.extras1 = true;
     s._migrated = true;
   }
   return s;

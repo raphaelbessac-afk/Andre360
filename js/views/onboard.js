@@ -26,6 +26,7 @@ export function renderOnboarding() {
         <div><span>🏋️ Academia · ${r.train[1].perWeek}× na semana</span><b class="pos">+${brl(v.gym)}</b></div>
         <div><span>🥗 Almoço na dieta</span><b class="pos">+${brl(v.lunch)}</b></div>
         <div><span>🍽️ Jantar na dieta</span><b class="pos">+${brl(v.dinner)}</b></div>
+        ${r.extras.map((h) => `<div><span>${h.emoji} ${h.name}</span><b class="pos">+${brl(h.value)}</b></div>`).join('')}
         <div><span>🍫 Doce</span><b class="neg">−${brl(r.slips[0].value)}</b></div>
         <div><span>🧀 Pão de queijo</span><b class="neg">−${brl(r.slips[1].value)}</b></div>
       </div>

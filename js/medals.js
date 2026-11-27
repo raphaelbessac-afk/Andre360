@@ -18,6 +18,11 @@ export const MEDALS = [
   { id: 'km1000', emoji: '🪐', name: '1.000 km no projeto', desc: '1.000 km corridos desde o início (Strava)', color: '#D4FF3A' },
   { id: 'train50', emoji: '💪', name: '50 treinos', desc: '50 treinos registrados (corrida + academia)', color: '#FF5A1F' },
   { id: 'train150', emoji: '🦾', name: '150 treinos', desc: '150 treinos registrados', color: '#FF5A1F' },
+  { id: 'read7', emoji: '📚', name: 'Rato de biblioteca', desc: '7 dias seguidos lendo 10 páginas', color: '#8B6CFF', many: true },
+  { id: 'read30', emoji: '📖', name: 'Livro inteiro', desc: '30 leituras de 10 páginas (uns 300 páginas)', color: '#8B6CFF', many: true },
+  { id: 'esfiha10', emoji: '🥟', name: 'Esfiha raiz', desc: '10 tardes de esfiha sem sobremesa', color: '#FFB020', many: true },
+  { id: 'rain1', emoji: '🌧️', name: 'Nem a chuva para', desc: 'Correu na esteira num dia de chuva', color: '#22D3EE' },
+  { id: 'rain10', emoji: '⛈️', name: 'Temporada de chuva', desc: '10 corridas na esteira em dias de chuva', color: '#22D3EE' },
   { id: 'shoe1', emoji: '🎁', name: 'Primeiro tênis', desc: 'Conquistou o primeiro tênis do cofre', color: '#FFB020' },
   { id: 'shoe4', emoji: '🗄️', name: 'Sapateira cheia', desc: 'Conquistou 4 tênis no projeto', color: '#FFB020' },
   { id: 'd100', emoji: '💯', name: '100 dias de projeto', desc: '100 dias desde o início', color: '#8B6CFF' },
@@ -34,7 +39,7 @@ export function computeMedals(S) {
   const tot = totals(S);
   const res = {};
   const add = (id, n = 1) => (res[id] = (res[id] || 0) + n);
-  let diet = 0, noSweet = 0, noPdq = 0;
+  let diet = 0, noSweet = 0, noPdq = 0, readRun = 0;
   const monthKm = {};
   const monthSlips = {};
   const today = todayISO();
@@ -57,6 +62,11 @@ export function computeMedals(S) {
       if (noSweet && noSweet % 30 === 0) add('nosweet30');
       if (noPdq && noPdq % 14 === 0) add('nopdq14');
     }
+    const rd = b.extras.find((x) => x.h.id === 'read')?.n || 0;
+    if (rd) {
+      readRun++;
+      if (readRun % 7 === 0) add('read7');
+    } else if (!isToday) readRun = 0;
     const ym = ymOf(d);
     monthSlips[ym] = (monthSlips[ym] || 0) + sw + pq;
     for (const a of stravaRuns(S, d)) {
@@ -73,6 +83,11 @@ export function computeMedals(S) {
     if (km >= 50) add('km50');
     if (km >= 100) add('km100');
   }
+  const ex = tot.extras || {};
+  if (ex.read >= 30) add('read30', Math.floor(ex.read / 30));
+  if (ex.esfiha >= 10) add('esfiha10', Math.floor(ex.esfiha / 10));
+  if (ex.rainrun >= 1) add('rain1');
+  if (ex.rainrun >= 10) add('rain10');
   if (tot.km >= 500) add('km500');
   if (tot.km >= 1000) add('km1000');
   if (tot.runs + tot.gym >= 50) add('train50');

@@ -69,7 +69,7 @@ function trainRow(S, t, wk, date, editable) {
   const tag = acts.length ? `<span class="tag strava">Strava ${t.h.id === 'run' ? `${num(km)} km` : `${acts[0].min} min`}</span>` : '';
   let sub;
   if (t.n === 0) sub = done >= target ? 'meta da semana batida 🎉' : `vale +${brl(t.value)}`;
-  else if (t.paid || t.jokerPaid) sub = `<em>+${brl(t.amount)}</em>${t.extra ? ` · ${t.extra} extra` : ''}`;
+  else if (t.paid || t.jokerPaid) sub = `<em>+${brl(t.amount)}</em>${t.extra ? ` · ${t.extra} extra` : ''}${t.via ? ' · 🌧️ esteira' : ''}`;
   else sub = 'treino extra (meta já batida)';
   return `<div class="train ${t.n ? 'done' : ''}">
     <span class="hi">${t.h.emoji}</span>
@@ -77,7 +77,7 @@ function trainRow(S, t, wk, date, editable) {
       <span class="wk">${eyelets(Math.min(count, 9), target)}<span class="wk-t">${Math.min(done, target)}/${target} na semana${count > target ? ` · +${count - target}` : ''}</span></span>
     </span>
     <span class="step">
-      <button data-act="train" data-id="${t.h.id}" data-d="-1" ${editable && t.n ? '' : 'disabled'} aria-label="Tirar">−</button>
+      <button data-act="train" data-id="${t.h.id}" data-d="-1" ${editable && t.n - t.via ? '' : 'disabled'} aria-label="Tirar">−</button>
       <b>${t.n}</b>
       <button class="plus" data-act="train" data-id="${t.h.id}" data-d="1" ${editable ? '' : 'disabled'} aria-label="Adicionar">+</button>
     </span>
@@ -93,6 +93,15 @@ function slipRow(x, editable) {
       <b>${x.n}</b>
       <button class="plus bad" data-act="slip" data-id="${x.h.id}" data-d="1" ${editable ? '' : 'disabled'} aria-label="Adicionar">+</button>
     </span>
+  </div>`;
+}
+
+function extraRow(x, editable) {
+  const on = x.n > 0;
+  return `<div class="xtra ${on ? 'on' : ''}">
+    <span class="hi">${x.h.emoji}</span>
+    <span class="hn"><b>${esc(x.h.name)}</b><small>${on ? `<em>+${brl(x.amount)}</em>` : `+${brl(x.h.value)}`}${x.h.hint ? ` · ${esc(x.h.hint)}` : ''}</small></span>
+    <button class="tgl ${on ? 'on' : ''}" data-act="extra" data-id="${x.h.id}" ${editable ? '' : 'disabled'} aria-pressed="${on}" aria-label="${esc(x.h.name)}">${on ? '✓' : '+'}</button>
   </div>`;
 }
 
@@ -148,6 +157,7 @@ export function renderToday(app) {
   <section class="card"><h3>Refeições</h3>${b.meals.map((x) => mealRow(x, editable)).join('')}
     ${b.streak > 0 ? `<p class="hint">🔥 ${b.streak} dia${b.streak > 1 ? 's' : ''} seguido${b.streak > 1 ? 's' : ''} na dieta · bônus a cada ${b.rules.bonuses.streak.every}</p>` : ''}</section>
   <section class="card"><h3>Treinos <small>meta semanal, qualquer dia</small></h3>${b.train.map((t) => trainRow(S, t, wk, date, editable)).join('')}</section>
+  ${b.extras.length ? `<section class="card extras"><h3>Extras <small>dinheiro a mais no cofre</small></h3>${b.extras.map((x) => extraRow(x, editable)).join('')}</section>` : ''}
   <section class="card slips"><h3>Deslizes <small>olho grande custa caro</small></h3>${b.slips.map((x) => slipRow(x, editable)).join('')}</section>
   ${b.bonuses.length ? `<section class="card bonus">${b.bonuses.map((x) => `<div class="bo">${x.emoji} ${esc(x.label)} <em>+${brl(x.amount)}</em></div>`).join('')}</section>` : ''}
   <section class="card joker-card">
@@ -215,6 +225,14 @@ export const todayActions = {
       document.body.classList.add('shake');
       setTimeout(() => document.body.classList.remove('shake'), 400);
     }
+  },
+  extra(app, el) {
+    const id = el.dataset.id;
+    change(app, el, (e) => {
+      e.c = e.c || {};
+      e.c[id] = e.c[id] ? 0 : 1;
+    });
+    if (navigator.vibrate) navigator.vibrate(12);
   },
   joker(app, el) {
     const date = app.ui.date;

@@ -2,7 +2,7 @@
 // Treinos têm meta semanal (seg a dom, em qualquer dia). Refeições valem todo dia.
 // O pote mensal é dividido por peso: o mês perfeito soma exatamente o pote.
 
-export const VERSION = '1.0.1';
+export const VERSION = '1.1.0';
 
 export const SIXTY = '2027-11-03'; // 60 anos do André
 export const ATHLETE = 'André';
@@ -20,6 +20,12 @@ export const DEFAULT_RULES = {
   slips: [
     { id: 'sweet', name: 'Doce', emoji: '🍫', value: 15 },
     { id: 'pdq', name: 'Pão de queijo', emoji: '🧀', value: 10 },
+  ],
+  // Extras: somam por cima do pote. countsAs = também conta como esse treino na meta da semana.
+  extras: [
+    { id: 'read', name: 'Ler 10 páginas', emoji: '📖', value: 5, max: 1 },
+    { id: 'esfiha', name: 'Esfiha da tarde sem sobremesa', emoji: '🥟', value: 1, max: 1 },
+    { id: 'rainrun', name: 'Esteira em dia de chuva', emoji: '🌧️', value: 8, max: 1, countsAs: 'run', hint: 'já conta como corrida da semana' },
   ],
   bonuses: {
     streak: { every: 7, value: 5 }, // a cada 7 dias seguidos com almoço e jantar na dieta
